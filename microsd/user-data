@@ -1,3 +1,27 @@
 #cloud-config
+manage_resolv_conf: false
+
+hostname: raspi0-2w
+manage_etc_hosts: true
+packages:
+- avahi-daemon
+apt:
+  preserve_sources_list: true
+  conf: |
+    Acquire {
+      Check-Date "false";
+    };
+timezone: Asia/Seoul
+keyboard:
+  model: pc105
+  layout: "kr"
+user:
+  name: root
+  shell: /bin/bash
+  lock_passwd: false
+  passwd: "<mkpasswd --method=yescrypt>"
+  sudo: null
 runcmd:
-- [ systemctl, enable, serial-getty@ttyGS0.service ]
+  - [ rfkill, unblock, wifi ]
+  - [ sh, -c, "for f in /var/lib/systemd/rfkill/*:wlan; do echo 0 > \"$f\"; done" ]
+  - [ systemctl, enable, --now, serial-getty@ttyGS0.service ]
