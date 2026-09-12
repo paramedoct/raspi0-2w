@@ -1,0 +1,2 @@
+runcmd:
+  - [ systemctl, enable, serial-getty@ttyGS0.service ]
