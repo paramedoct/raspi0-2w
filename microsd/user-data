@@ -1,2 +1,3 @@
+#cloud-config
 runcmd:
   - [ systemctl, enable, --now, serial-getty@ttyGS0.service ]
