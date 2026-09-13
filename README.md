@@ -13,4 +13,3 @@ sudo nmcli device wifi connect <ssid> --ask
 # pinmap
 pinout
 ```
-<br></br>
