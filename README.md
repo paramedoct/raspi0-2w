@@ -1,9 +1,9 @@
 ## RASPI0-2W
 - Bring raspbian to microsd card using official imager
 - Find root partition from `bootfs/cmdline.txt`
-- Paste into `microsd/cmdline.txt`
-- Replace passwd placeholder in `microsd/user-data`
-- Overwrite microsd card with `microsd/*`
+- Paste into `provision/cmdline.txt`
+- Replace passwd placeholder in `provision/user-data`
+- Overwrite microsd card with `provision/*`
 ```
 # network
 sudo nmcli radio wifi on
