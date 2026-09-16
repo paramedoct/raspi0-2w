@@ -1,0 +1,52 @@
+#!/usr/bin/env bash
+set -euo pipefail
+ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+
+usage() {
+  echo "$0" >&2
+  exit 1
+}
+
+# shellcheck source=/dev/null
+source "$ROOT_DIR/utils/source.sh"
+source_modules utils/provision.sh
+
+main() {
+  local rootdev
+  local password
+  local password_again
+  local password_hash
+  [ "$#" -eq 0 ] || usage
+  [ -t 0 ] || {
+    echo "interactive terminal required" >&2
+    return 1
+  }
+  read -r -p "rootdev: " rootdev
+  [ -n "$rootdev" ] || {
+    echo "rootdev is required" >&2
+    return 1
+  }
+  case "$rootdev" in
+    *[[:space:]]*)
+      echo "rootdev must not contain spaces" >&2
+      return 1
+      ;;
+  esac
+  read -r -s -p "passwd: " password
+  printf '\n' >&2
+  read -r -s -p "passwd again: " password_again
+  printf '\n' >&2
+  [ -n "$password" ] || {
+    echo "passwd is required" >&2
+    return 1
+  }
+  [ "$password" = "$password_again" ] || {
+    echo "passwd does not match" >&2
+    return 1
+  }
+  password_hash=$(provision_password_hash "$password")
+  provision_apply "$rootdev" "$password_hash"
+  provision_status
+}
+
+main "$@"
