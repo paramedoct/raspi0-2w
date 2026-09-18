@@ -16,6 +16,8 @@ provision_rootdev() {
 provision_password_value() {
   awk '/^[[:space:]]*passwd:[[:space:]]*/ {
     sub(/^[[:space:]]*passwd:[[:space:]]*/, "")
+    sub(/^"/, "")
+    sub(/"$/, "")
     print
     exit
   }' "$PROVISION_USER_DATA_FILE"
@@ -104,7 +106,7 @@ provision_status() {
     printf 'rootdev unset\n'
   fi
   if provision_password_is_set; then
-    printf 'passwd set\n'
+    printf 'passwd %s\n' "$(provision_password_value)"
   else
     printf 'passwd unset\n'
   fi
