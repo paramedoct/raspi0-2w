@@ -46,7 +46,6 @@ main() {
   }
   password_hash=$(provision_password_hash "$password")
   provision_apply "$rootdev" "$password_hash"
-  provision_status
 }
 
 main "$@"
