@@ -101,13 +101,13 @@ provision_status() {
   local rootdev
   rootdev=$(provision_rootdev)
   if provision_rootdev_is_set; then
-    printf 'rootdev %s\n' "$rootdev"
+    printf 'rootdev: %s\n' "$rootdev"
   else
-    printf 'rootdev unset\n'
+    printf 'rootdev: unset\n'
   fi
   if provision_password_is_set; then
-    printf 'passwd %s\n' "$(provision_password_value)"
+    printf 'passwd: %s\n' "$(provision_password_value)"
   else
-    printf 'passwd unset\n'
+    printf 'passwd: unset\n'
   fi
 }
