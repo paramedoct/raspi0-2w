@@ -34,7 +34,7 @@ main() {
   esac
   read -r -s -p "passwd: " password
   printf '\n' >&2
-  read -r -s -p "passwd again: " password_again
+  read -r -s -p "confirmation: " password_again
   printf '\n' >&2
   [ -n "$password" ] || {
     echo "passwd is required" >&2
