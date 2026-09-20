@@ -1,5 +1,5 @@
 PROVISION_CMDLINE_FILE="$ROOT_DIR/provision/cmdline.txt"
-PROVISION_USER_DATA_FILE="$ROOT_DIR/provision/user-data"
+PROVISION_USER_FILE="$ROOT_DIR/provision/user-data"
 PROVISION_ROOTDEV_PLACEHOLDER='__ROOTDEV__'
 PROVISION_PASSWORD_PLACEHOLDER='__ROOT_PASSWORD_HASH__'
 
@@ -22,7 +22,7 @@ provision_password_value() {
     sub(/"$/, "")
     print
     exit
-  }' "$PROVISION_USER_DATA_FILE"
+  }' "$PROVISION_USER_FILE"
 }
 
 provision_rootdev_is_set() {
@@ -68,7 +68,7 @@ provision_write_password() {
   local password_hash
   local output_file
   password_hash=$1
-  output_file=$(mktemp "$PROVISION_USER_DATA_FILE.XXXXXX")
+  output_file=$(mktemp "$PROVISION_USER_FILE.XXXXXX")
   if ! awk -v password_hash="$password_hash" '
     /^[[:space:]]*passwd:[[:space:]]*/ && !found {
       indent = $0
@@ -79,11 +79,11 @@ provision_write_password() {
     }
     { print }
     END { exit (found ? 0 : 1) }
-  ' "$PROVISION_USER_DATA_FILE" >"$output_file"; then
+  ' "$PROVISION_USER_FILE" >"$output_file"; then
     rm -f "$output_file"
     return 1
   fi
-  mv "$output_file" "$PROVISION_USER_DATA_FILE"
+  mv "$output_file" "$PROVISION_USER_FILE"
 }
 
 provision_apply() {
