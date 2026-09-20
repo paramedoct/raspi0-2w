@@ -19,7 +19,7 @@ user:
   name: root
   shell: /bin/bash
   lock_passwd: false
-  passwd: "<mkpasswd --method=yescrypt>"
+  passwd: __ROOT_PASSWORD_HASH__
   sudo: null
 runcmd:
   - [ rfkill, unblock, wifi ]

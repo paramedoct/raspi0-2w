@@ -1,1 +1,1 @@
-console=tty1 console=ttyGS0,115200 root=ROOTDEV rootfstype=ext4 fsck.repair=yes rootwait resize modules-load=dwc2,g_serial
+console=tty1 console=ttyGS0,115200 root=__ROOTDEV__ rootfstype=ext4 fsck.repair=yes rootwait resize modules-load=dwc2,g_serial

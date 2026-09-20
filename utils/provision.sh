@@ -1,5 +1,7 @@
 PROVISION_CMDLINE_FILE="$ROOT_DIR/provision/cmdline.txt"
 PROVISION_USER_DATA_FILE="$ROOT_DIR/provision/user-data"
+PROVISION_ROOTDEV_PLACEHOLDER='__ROOTDEV__'
+PROVISION_PASSWORD_PLACEHOLDER='__ROOT_PASSWORD_HASH__'
 
 provision_rootdev() {
   awk '{
@@ -26,17 +28,13 @@ provision_password_value() {
 provision_rootdev_is_set() {
   local rootdev
   rootdev=$(provision_rootdev)
-  [ -n "$rootdev" ] && [ "$rootdev" != "ROOTDEV" ]
+  [ -n "$rootdev" ] && [ "$rootdev" != "$PROVISION_ROOTDEV_PLACEHOLDER" ]
 }
 
 provision_password_is_set() {
   local password
   password=$(provision_password_value | tr -d '[:space:]')
-  case "$password" in
-    ""|'""'|"''"|'"<mkpasswd--method=yescrypt>"'|'<mkpasswd--method=yescrypt>')
-      return 1
-      ;;
-  esac
+  [ -n "$password" ] && [ "$password" != "$PROVISION_PASSWORD_PLACEHOLDER" ]
 }
 
 provision_password_hash() {
